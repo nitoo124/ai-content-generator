@@ -9,11 +9,13 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-export default function CreateNewContent({
-  params,
-}: {
-  params: { "template-slug": string }
-}) {
+interface Props {
+  params: {
+    "template-slug": string
+  }
+}
+
+function CreateNewContent({ params }: Props) {
   const [loading, setLoading] = useState<boolean>(false)
   const [aioutput, setAiOutput] = useState<string>("")
   
@@ -33,18 +35,18 @@ export default function CreateNewContent({
       const result = await model.generateContent(finalAiPrompt)
       const response = await result.response
       const text = response.text()
-      // Send to MongoDB
-      await fetch("/api/save-content", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          formData,
-          aiOutput: text,
-          templateSlug: params["template-slug"]
-        })
-      });
+        // Send to MongoDB
+    await fetch("/api/save-content", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        formData,
+        aiOutput: text,
+        templateSlug: params["template-slug"]
+      })
+    });
       
       console.log(text) 
       setAiOutput(text) 
@@ -81,3 +83,5 @@ export default function CreateNewContent({
     </div>
   )
 }
+
+export default CreateNewContent
