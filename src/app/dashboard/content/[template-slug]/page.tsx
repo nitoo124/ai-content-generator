@@ -9,14 +9,11 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-interface PageProps {
-  params: {
-    "template-slug": string
-  }
-  searchParams: Record<string, string | string[] | undefined>
-}
-
-function CreateNewContent({ params }: PageProps) {
+export default function CreateNewContent({
+  params,
+}: {
+  params: { "template-slug": string }
+}) {
   const [loading, setLoading] = useState<boolean>(false)
   const [aioutput, setAiOutput] = useState<string>("")
   
@@ -84,5 +81,3 @@ function CreateNewContent({ params }: PageProps) {
     </div>
   )
 }
-
-export default CreateNewContent
