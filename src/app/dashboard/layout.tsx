@@ -6,6 +6,7 @@ function layout({children}: Readonly<{
     children: React.ReactNode;
   }>) {
   return (
+    
     <div className=' bg-slate-100 h-screen'>
         <div className=' md:w-64 fixed hidden md:block'>
             <SideNav/>
