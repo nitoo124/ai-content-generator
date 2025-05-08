@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     domains: ["cdn-icons-png.flaticon.com"]
   },
   eslint:{
-    ignoreDuringBuilds:true
+    ignoreDuringBuilds:true,
   }
 };
 
