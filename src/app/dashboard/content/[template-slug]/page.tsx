@@ -8,30 +8,30 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-// Solution 1: Use this if you want to keep strict types
+// Solution 1: Hybrid type that satisfies Next.js internal requirements
 type PageProps = {
-  params: { slug: string } & { then?: never, catch?: never, finally?: never }
+  params: { "template-slug": string } & { then?: never }
   searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-// Solution 2: Or use this simpler version that also works
-// type PageProps = {
-//   params: { "template-slug": string }
+// Solution 2: Alternative type that also works
+// type PageProps = Awaited<{
+//   params: Promise<{ "template-slug": string }>
 //   searchParams?: { [key: string]: string | string[] | undefined }
-// }
+// }>
 
 export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState(false)
   const [aioutput, setAiOutput] = useState("")
 
-  // Initialize Google Generative AI
+  // Add validation for API key
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY
   if (!apiKey) {
     throw new Error("Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable")
   }
   const genAI = new GoogleGenerativeAI(apiKey)
 
-  const selectedTemplate = Template?.find((item) => item.slug === params["slug"])
+  const selectedTemplate = Template?.find((item) => item.slug === params["template-slug"])
 
   const GenerateNewContent = async (formData: any) => {
     setLoading(true)
@@ -52,7 +52,7 @@ export default function ContentPage({ params }: PageProps) {
         body: JSON.stringify({
           formData,
           aiOutput: text,
-          templateSlug: params["slug"]
+          templateSlug: params["template-slug"]
         })
       })
 
