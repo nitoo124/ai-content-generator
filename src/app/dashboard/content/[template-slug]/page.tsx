@@ -9,19 +9,23 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-// Correct type definition that matches Next.js expectations
+// Solution 1: Use this if you want to keep strict types
 type PageProps = {
-  params: {
-    "template-slug": string
-  }
+  params: { "template-slug": string } & { then?: never, catch?: never, finally?: never }
   searchParams?: { [key: string]: string | string[] | undefined }
 }
+
+// Solution 2: Or use this simpler version that also works
+// type PageProps = {
+//   params: { "template-slug": string }
+//   searchParams?: { [key: string]: string | string[] | undefined }
+// }
 
 export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState(false)
   const [aioutput, setAiOutput] = useState("")
 
-  // Initialize Google Generative AI with environment variable check
+  // Initialize Google Generative AI
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY
   if (!apiKey) {
     throw new Error("Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable")
