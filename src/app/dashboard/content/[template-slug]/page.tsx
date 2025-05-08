@@ -10,37 +10,32 @@ import { useState, useEffect } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
 type PageProps = {
-  params: {
+  params: Promise<{
     "template-slug": string
-  }
+  }>
   searchParams?: Record<string, string | string[] | undefined>
 }
 
 export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState(false)
   const [aioutput, setAiOutput] = useState("")
-  const [resolvedParams, setResolvedParams] = useState<{ "template-slug": string } | null>(null)
+  const [templateSlug, setTemplateSlug] = useState<string>("")
 
+  // Resolve the promise when component mounts
   useEffect(() => {
-    // If params is a Promise, resolve it
-    if (params instanceof Promise) {
-      params.then(resolved => {
-        setResolvedParams(resolved)
-      })
-    } else {
-      setResolvedParams(params)
-    }
+    params.then(resolvedParams => {
+      setTemplateSlug(resolvedParams["template-slug"])
+    }).catch(error => {
+      console.error("Error resolving params:", error)
+    })
   }, [params])
 
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "")
-
-  if (!resolvedParams) {
-    return <div>Loading...</div>
-  }
-
-  const selectedTemplate = Template?.find((item) => item.slug === resolvedParams["template-slug"])
+  const selectedTemplate = Template?.find((item) => item.slug === templateSlug)
 
   const GenerateNewContent = async (formData: any) => {
+    if (!templateSlug) return
+    
     setLoading(true)
     try {
       const selectedPrompt = selectedTemplate?.aiPrompt
@@ -59,7 +54,7 @@ export default function ContentPage({ params }: PageProps) {
         body: JSON.stringify({
           formData,
           aiOutput: text,
-          templateSlug: resolvedParams["template-slug"]
+          templateSlug: templateSlug
         })
       })
 
@@ -70,6 +65,10 @@ export default function ContentPage({ params }: PageProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (!templateSlug) {
+    return <div>Loading template...</div>
   }
 
   return (
