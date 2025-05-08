@@ -6,36 +6,31 @@ import OutputSection from "../_components/OutputSection"
 import { Button } from "@/components/ui/button"
 import { ArrowBigLeft } from "lucide-react"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
+// Correct type definition that matches Next.js expectations
 type PageProps = {
-  params: Promise<{
+  params: {
     "template-slug": string
-  }>
-  searchParams?: Record<string, string | string[] | undefined>
+  }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState(false)
   const [aioutput, setAiOutput] = useState("")
-  const [templateSlug, setTemplateSlug] = useState<string>("")
 
-  // Resolve the promise when component mounts
-  useEffect(() => {
-    params.then(resolvedParams => {
-      setTemplateSlug(resolvedParams["template-slug"])
-    }).catch(error => {
-      console.error("Error resolving params:", error)
-    })
-  }, [params])
+  // Initialize Google Generative AI with environment variable check
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY
+  if (!apiKey) {
+    throw new Error("Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable")
+  }
+  const genAI = new GoogleGenerativeAI(apiKey)
 
-  const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "")
-  const selectedTemplate = Template?.find((item) => item.slug === templateSlug)
+  const selectedTemplate = Template?.find((item) => item.slug === params["template-slug"])
 
   const GenerateNewContent = async (formData: any) => {
-    if (!templateSlug) return
-    
     setLoading(true)
     try {
       const selectedPrompt = selectedTemplate?.aiPrompt
@@ -54,7 +49,7 @@ export default function ContentPage({ params }: PageProps) {
         body: JSON.stringify({
           formData,
           aiOutput: text,
-          templateSlug: templateSlug
+          templateSlug: params["template-slug"]
         })
       })
 
@@ -65,10 +60,6 @@ export default function ContentPage({ params }: PageProps) {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (!templateSlug) {
-    return <div>Loading template...</div>
   }
 
   return (

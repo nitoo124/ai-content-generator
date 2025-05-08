@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   eslint:{
     ignoreDuringBuilds:true,
   },
+  typescript: {
+    // Remove this after confirming the build works
+    ignoreBuildErrors: false,
+  }
+
   
 };
 
