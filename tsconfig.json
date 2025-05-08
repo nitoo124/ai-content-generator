@@ -24,6 +24,6 @@
     // Add this to ensure Clerk types are recognized
     "types": ["@clerk/nextjs", "node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js", "src/app/dashboard/settings"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js", "src/app/dashboard/settings", "next.config.js"],
   "exclude": ["node_modules"]
 }
