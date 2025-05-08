@@ -9,17 +9,18 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-interface PageProps {
+// Use this type definition instead of your interface
+type PageProps = {
   params: {
     "template-slug": string
   }
+  searchParams?: Record<string, string | string[] | undefined>
 }
 
-export default function Page({ params }: PageProps) {
+export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState<boolean>(false)
   const [aioutput, setAiOutput] = useState<string>("")
   
-  // Initialize Google Generative AI
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "")
   
   const GenerateNewContent = async (formData: any) => {
@@ -28,15 +29,11 @@ export default function Page({ params }: PageProps) {
       const selectedPrompt = selectedTemplate?.aiPrompt
       const finalAiPrompt = JSON.stringify(formData) + " " + selectedPrompt
       
-      // Get the generative model
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
-      
-      // Generate content
       const result = await model.generateContent(finalAiPrompt)
       const response = await result.response
       const text = response.text()
       
-      // Send to MongoDB
       await fetch("/api/save-content", {
         method: "POST",
         headers: {
@@ -49,7 +46,6 @@ export default function Page({ params }: PageProps) {
         })
       });
       
-      console.log(text) 
       setAiOutput(text) 
     } catch (error) {
       console.error("Error generating content:", error)
@@ -59,26 +55,23 @@ export default function Page({ params }: PageProps) {
     }
   }
 
-  const selectedTemplate: TEMPLATE | undefined = Template?.find((item) => item.slug == params["template-slug"])
+  const selectedTemplate = Template?.find((item) => item.slug == params["template-slug"])
   
   return (
     <div className="p-5">
-      <Link href={"/dashboard"}>
+      <Link href="/dashboard">
         <Button className="bg-[#7B19D8] text-white font-semibold text-xl">
           <ArrowBigLeft className="font-semibold text-xl" />Back
         </Button>
       </Link>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 p-5">
-        {/* Form-section */}
         <FormSection 
           selectedTemplate={selectedTemplate}
           useFormInput={GenerateNewContent} 
           loading={loading}
         />
-
-        {/* Output-section */}
         <div className="col-span-2">
-          <OutputSection aiOutput={aioutput}  />
+          <OutputSection aiOutput={aioutput} />
         </div>
       </div>
     </div>
