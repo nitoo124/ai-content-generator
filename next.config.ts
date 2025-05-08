@@ -7,12 +7,7 @@ const nextConfig: NextConfig = {
   eslint:{
     ignoreDuringBuilds:true,
   },
-  experimental: {
-    typedRoutes: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true, // Temporary measure to get deployed
-  },
+  
 };
 
 export default nextConfig;
