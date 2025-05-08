@@ -9,7 +9,6 @@ import Link from "next/link"
 import { useState } from "react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
-// Use this type definition instead of your interface
 type PageProps = {
   params: {
     "template-slug": string
@@ -20,20 +19,22 @@ type PageProps = {
 export default function ContentPage({ params }: PageProps) {
   const [loading, setLoading] = useState<boolean>(false)
   const [aioutput, setAiOutput] = useState<string>("")
-  
+
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "")
-  
+
+  const selectedTemplate = Template?.find((item) => item.slug == params["template-slug"])
+
   const GenerateNewContent = async (formData: any) => {
     setLoading(true)
     try {
       const selectedPrompt = selectedTemplate?.aiPrompt
       const finalAiPrompt = JSON.stringify(formData) + " " + selectedPrompt
-      
+
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
       const result = await model.generateContent(finalAiPrompt)
       const response = await result.response
       const text = response.text()
-      
+
       await fetch("/api/save-content", {
         method: "POST",
         headers: {
@@ -44,9 +45,9 @@ export default function ContentPage({ params }: PageProps) {
           aiOutput: text,
           templateSlug: params["template-slug"]
         })
-      });
-      
-      setAiOutput(text) 
+      })
+
+      setAiOutput(text)
     } catch (error) {
       console.error("Error generating content:", error)
       setAiOutput("Error generating content. Please try again.")
@@ -55,8 +56,6 @@ export default function ContentPage({ params }: PageProps) {
     }
   }
 
-  const selectedTemplate = Template?.find((item) => item.slug == params["template-slug"])
-  
   return (
     <div className="p-5">
       <Link href="/dashboard">
@@ -65,9 +64,9 @@ export default function ContentPage({ params }: PageProps) {
         </Button>
       </Link>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 p-5">
-        <FormSection 
+        <FormSection
           selectedTemplate={selectedTemplate}
-          useFormInput={GenerateNewContent} 
+          useFormInput={GenerateNewContent}
           loading={loading}
         />
         <div className="col-span-2">
