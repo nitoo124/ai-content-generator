@@ -1,6 +1,5 @@
 "use client"
 import { Template } from "@/app/(data)/Templates"
-import { TEMPLATE } from "../../_component/TemplatesSection"
 import FormSection from "../_components/FormSection"
 import OutputSection from "../_components/OutputSection"
 import { Button } from "@/components/ui/button"
@@ -11,7 +10,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 
 // Solution 1: Use this if you want to keep strict types
 type PageProps = {
-  params: { "template-slug": string } & { then?: never, catch?: never, finally?: never }
+  params: { slug: string } & { then?: never, catch?: never, finally?: never }
   searchParams?: { [key: string]: string | string[] | undefined }
 }
 
@@ -32,7 +31,7 @@ export default function ContentPage({ params }: PageProps) {
   }
   const genAI = new GoogleGenerativeAI(apiKey)
 
-  const selectedTemplate = Template?.find((item) => item.slug === params["template-slug"])
+  const selectedTemplate = Template?.find((item) => item.slug === params["slug"])
 
   const GenerateNewContent = async (formData: any) => {
     setLoading(true)
@@ -53,7 +52,7 @@ export default function ContentPage({ params }: PageProps) {
         body: JSON.stringify({
           formData,
           aiOutput: text,
-          templateSlug: params["template-slug"]
+          templateSlug: params["slug"]
         })
       })
 
