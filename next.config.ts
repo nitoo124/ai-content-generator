@@ -1,18 +1,11 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ["cdn-icons-png.flaticon.com"]
+    domains: ["cdn-icons-png.flaticon.com"],
   },
-  eslint:{
-    ignoreDuringBuilds:true,
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-  typescript: {
-    // Remove this after confirming the build works
-    ignoreBuildErrors: false,
-  }
-
-  
 };
 
-export default nextConfig;
+module.exports = nextConfig;
