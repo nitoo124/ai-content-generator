@@ -108,3 +108,39 @@ export async function PUT(req: NextRequest) {
     );
   }
 }
+
+// Add this to your API route (save-content.ts)
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = await req.json();
+    await dbConnect();
+
+    // Get the current user from Clerk
+    const user = await currentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
+    }
+
+    // Verify the content belongs to the user
+    const content = await Content.findById(id);
+    if (!content) {
+      return NextResponse.json({ error: 'Content not found' }, { status: 404 });
+    }
+
+    const userEmail = user.emailAddresses[0]?.emailAddress;
+    if (content.email !== userEmail) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    // Delete the content
+    await Content.findByIdAndDelete(id);
+
+    return NextResponse.json({ message: 'Content deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting content:', error);
+    return NextResponse.json(
+      { error: 'Error deleting content' },
+      { status: 500 }
+    );
+  }
+}
