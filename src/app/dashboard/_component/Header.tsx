@@ -34,14 +34,14 @@ function Header({ onMenuClick }: HeaderProps) {
         )}
 
         {/* Searchbar */}
-        <div className='flex gap-2 items-center p-2 border rounded-md max-w-lg bg-white'>
+        <div className='flex gap-2 items-center p-2 border rounded-md max-w-lg bg-white '>
           <Search />
           <input type="text" placeholder='Search...' className='outline-none' />
         </div>
       </div>
 
       {/* Right section */}
-      <div className='flex gap-3 items-center ml-2'>
+      <div className='flex gap-3 items-center ml-1 '>
         <UserButton />
       </div>
     </header>
