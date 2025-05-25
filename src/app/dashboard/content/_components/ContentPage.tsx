@@ -59,22 +59,19 @@ export default function ContentPage({ templateSlug }: ClientPageProps) {
   }
 
   return (
-    <div className="p-4 md:p-5">
+    <div className="p-5">
       <Link href="/dashboard">
-        <Button className="bg-[#7B19D8] text-white font-semibold text-sm md:text-xl mb-4 md:mb-0">
-          <ArrowBigLeft className="font-semibold text-sm md:text-xl mr-1" />
-          Back
+        <Button className="bg-[#7B19D8] text-white font-semibold text-xl">
+          <ArrowBigLeft className="font-semibold text-xl" />Back
         </Button>
       </Link>
-      <div className="flex flex-col md:grid md:grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-10 p-0 md:p-5">
-        <div className="lg:col-span-1">
-          <FormSection
-            selectedTemplate={selectedTemplate}
-            useFormInput={GenerateNewContent}
-            loading={loading}
-          />
-        </div>
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 p-5">
+        <FormSection
+          selectedTemplate={selectedTemplate}
+          useFormInput={GenerateNewContent}
+          loading={loading}
+        />
+        <div className="col-span-2">
           <OutputSection aiOutput={aioutput} />
         </div>
       </div>
