@@ -1,17 +1,16 @@
 // app/template/[template-slug]/page.tsx
-import ContentPage from "../_components/ContentPage"
+import ContentPage from "../_components/ContentPage";
 
 type PageProps = {
   params: Promise<{
-    "template-slug": string
-  }>
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+    "template-slug": string;
+  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export default async function Page({ params, searchParams }: PageProps) {
+  const { "template-slug": id } = await params;
+  const query = searchParams ? await searchParams : {};
 
-  const id = (await params)["template-slug"]
-  return (
-    <ContentPage templateSlug={id} searchParams={searchParams} />
-  )
+  return <ContentPage templateSlug={id} searchParams={query} />;
 }
