@@ -43,23 +43,29 @@ export default function HistoryPage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 my-10 bg-white min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Content History</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          View and manage content you've previously generated
-        </p>
-      </div>
+   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white rounded-xl shadow-sm border border-gray-100">
+  <div className="mb-10 text-center">
+    <h1 className="text-3xl md:text-4xl font-bold  bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+      Content History
+    </h1>
+    <p className="mt-3 text-lg text-gray-500 max-w-2xl mx-auto">
+      Review, manage, and reuse your previously generated content
+    </p>
+  </div>
 
-      {contentHistory.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <HistoryTable 
-          contentHistory={contentHistory} 
-          setContentHistory={setContentHistory}
-          setError={setError}
-        />
-      )}
+  {contentHistory.length === 0 ? (
+    <div className="flex flex-col items-center justify-center py-16">
+      <EmptyState />
     </div>
+  ) : (
+    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-xs">
+      <HistoryTable 
+        contentHistory={contentHistory} 
+        setContentHistory={setContentHistory}
+        setError={setError}
+      />
+    </div>
+  )}
+</div>
   );
 }
