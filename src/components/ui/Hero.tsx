@@ -1,77 +1,176 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Sparkles, FileText, Globe, Zap, Clock } from "lucide-react";
+import { Sparkles, FileText, Globe, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+
+// Animation variants
+const container = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  }
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8 } }
+};
 
 export default function HeroSection() {
   return (
-    <section className="relative flex flex-col items-center justify-center overflow-hidden bg-gray-50 h-full md:h-screen text-[#7B19D8] py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center">
-          {/* Main Heading with Icon */}
-          <div className="flex justify-center items-center mb-4">
-            <Sparkles className="h-10 w-10 mr-3" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
-              AI Content Generator
-            </h1>
-          </div>
-          
-          {/* Subheading */}
-          <p className="text-xl sm:text-2xl max-w-3xl mx-auto mb-10 text-gray-700">
-            Create high-quality content in seconds with our powerful AI tools. Perfect for blogs, 
-            social media, and marketing materials.
-          </p>
-          
-          {/* CTA Button */}
-          <div className="flex justify-center mb-16">
+    <motion.section 
+      initial="hidden"
+      animate="visible"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-gray-50 to-[#faf5ff] min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+    >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+          className="absolute left-1/2 top-0 h-[50vh] w-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#7B19D8]/10 to-[#AD5CFF]/10 blur-3xl"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.7 }}
+          className="absolute left-0 top-1/2 h-[50vh] w-[30vw] rounded-full bg-[#7B19D8]/10 blur-3xl"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ duration: 1.5, delay: 0.9 }}
+          className="absolute right-0 bottom-0 h-[40vh] w-[30vw] rounded-full bg-[#AD5CFF]/10 blur-3xl"
+        />
+      </div>
+
+      <motion.div 
+        variants={container}
+        className="mx-auto max-w-7xl text-center"
+      >
+        {/* Animated badge */}
+        <motion.div variants={item} className="mb-8 flex justify-center">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative rounded-full px-4 py-2 text-sm leading-6 text-[#7B19D8] ring-1 ring-[#7B19D8]/10 hover:ring-[#7B19D8]/20 flex items-center gap-2"
+          >
+            <Sparkles className="h-4 w-4" />
+            AI-Powered Content Creation
+          </motion.div>
+        </motion.div>
+
+        {/* Animated heading */}
+        <motion.h1 
+          variants={item}
+          className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl md:text-7xl"
+        >
+          <motion.span 
+            initial={{ backgroundPosition: "0%" }}
+            animate={{ backgroundPosition: "100%" }}
+            transition={{ duration: 6, repeat: Infinity, repeatType: "reverse" }}
+            className="bg-gradient-to-r from-[#7B19D8] to-[#AD5CFF] bg-clip-text text-transparent bg-[length:200%_auto]"
+          >
+            Generate Stellar Content
+          </motion.span>
+          <br />
+          <motion.span variants={item}>in Seconds</motion.span>
+        </motion.h1>
+
+        {/* Animated paragraph */}
+        <motion.p 
+          variants={item}
+          className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl mx-auto"
+        >
+          Create blog posts, social media content, and marketing copy with our
+          powerful AI tools. No writing skills required.
+        </motion.p>
+
+        {/* Animated CTA Buttons */}
+        <motion.div 
+          variants={container}
+          className="mt-10 flex items-center justify-center gap-x-6"
+        >
+          <motion.div variants={item}>
             <Link href="/dashboard">
-              <Button className="bg-[#7B19D8] hover:bg-[#6a14c0] text-white px-8 py-6 text-lg font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-[#7B19D8]/30">
+              <Button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="rounded-xl bg-[#7B19D8] hover:bg-[#6a14c0] px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-[#7B19D8]/40"
+              >
                 <Sparkles className="mr-2 h-5 w-5" />
-                Get Started - It's Free
+                Start Creating - It's Free
               </Button>
             </Link>
-          </div>
-          
-          {/* Stats/Features with Icons */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto ">
-            <div className="bg-purple-50 p-6 rounded-xl border border-purple-100 hover:shadow-lg transition-shadow">
-              <div className="flex flex-col items-center">
-                <div className="bg-[#7B19D8]/10 p-3 rounded-full mb-3">
-                  <FileText className="h-8 w-8 text-[#7B19D8]" />
-                </div>
-                <h3 className="text-2xl font-bold mb-1 text-[#7B19D8]">10+</h3>
-                <p className="text-sm text-[#7B19D8]">Templates</p>
+          </motion.div>
+         
+        </motion.div>
+
+        {/* Animated Stats grid */}
+        <motion.div 
+          variants={fadeIn}
+          transition={{ delay: 0.5 }}
+          className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3 max-w-4xl mx-auto"
+        >
+          {[
+            {
+              icon: <FileText className="h-8 w-8 text-[#7B19D8]" />,
+              value: "10+",
+              label: "Content Templates",
+            },
+            {
+              icon: <Globe className="h-8 w-8 text-[#7B19D8]" />,
+              value: "10+",
+              label: "Languages Supported",
+            },
+            {
+              icon: <Zap className="h-8 w-8 text-[#7B19D8]" />,
+              value: "10x",
+              label: "Faster Creation",
+            },
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              variants={item}
+              whileHover={{ y: -5 }}
+              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 transition-all hover:shadow-md hover:ring-[#7B19D8]/30"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <motion.div 
+                  animate={{ 
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 2
+                  }}
+                  className="rounded-lg bg-[#7B19D8]/10 p-3"
+                >
+                  {stat.icon}
+                </motion.div>
+                <p className="text-3xl font-bold text-[#7B19D8]">{stat.value}</p>
+                <p className="text-sm font-medium text-gray-600">{stat.label}</p>
               </div>
-            </div>
-            
-            <div className="bg-purple-50 p-6 rounded-xl border border-purple-100 hover:shadow-lg transition-shadow">
-              <div className="flex flex-col items-center">
-                <div className="bg-[#7B19D8]/10 p-3 rounded-full mb-3">
-                  <Globe className="h-8 w-8 text-[#7B19D8]" />
-                </div>
-                <h3 className="text-2xl font-bold mb-1 text-[#7B19D8]">10+</h3>
-                <p className="text-sm text-[#7B19D8]">Languages</p>
-              </div>
-            </div>
-            
-            <div className="bg-purple-50 p-6 rounded-xl border border-purple-100 hover:shadow-lg transition-shadow">
-              <div className="flex flex-col items-center">
-                <div className="bg-[#7B19D8]/10 p-3 rounded-full mb-3">
-                  <Zap className="h-8 w-8 text-[#7B19D8]" />
-                </div>
-                <h3 className="text-2xl font-bold mb-1 text-[#7B19D8]">10x</h3>
-                <p className="text-sm text-[#7B19D8]">Faster Creation</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-40 h-40 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-        <div className="absolute top-40 right-20 w-60 h-60 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/2 w-50 h-50 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000"></div>
-      </div>
-    </section>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 }

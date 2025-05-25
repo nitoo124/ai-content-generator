@@ -30,7 +30,7 @@ function OutputSection({ aiOutput, loading }: Props) {
     <div className='bg-white shadow-lg border rounded-lg'>
       <div className='flex justify-between items-center p-5'>
         <h2 className='font-bold text-lg'>Your Result</h2>
-        <Button className='p-3 flex gap-2' onClick={handleCopy}>
+        <Button className='p-3 flex gap-2 active:bg-green-800 duration-75' onClick={handleCopy}>
           <Copy size={16} /> Copy
         </Button>
       </div>
