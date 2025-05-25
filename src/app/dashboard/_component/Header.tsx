@@ -21,7 +21,7 @@ function Header({ onMenuClick }: HeaderProps) {
   }, [])
 
   return (
-    <header className='p-5 shadow-sm border-b-2 flex justify-between items-center'>
+    <header className='p-5 shadow-sm border-b-2 flex justify-center sm:justify-between items-center'>
       {/* Left section */}
       <div className='flex items-center gap-3'>
         {isMobileView && (
@@ -41,7 +41,7 @@ function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       {/* Right section */}
-      <div className='flex gap-3 items-center'>
+      <div className='flex gap-3 items-center ml-2'>
         <UserButton />
       </div>
     </header>

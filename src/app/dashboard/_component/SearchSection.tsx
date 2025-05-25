@@ -10,7 +10,7 @@ function SearchSection({onSearchInput}:any) {
   return (
     <div className=' p-10 bg-gradient-to-br from-purple-400 via-[#7B19D8] to-blue-600
     flex flex-col justify-center items-center '>
-        <h2 className=' text-3xl text-white font-bold'>Browse All Templates</h2>
+        <h2 className=' text-3xl text-white font-bold text-center'>Browse All Templates</h2>
         <p className='text-white'>What would you like tto create today?</p>
 
         <div className=' w-full flex justify-center items-center'>
