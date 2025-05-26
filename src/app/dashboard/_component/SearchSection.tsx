@@ -11,7 +11,7 @@ function SearchSection({onSearchInput}:any) {
     <div className=' p-10 bg-gradient-to-br from-purple-400 via-[#7B19D8] to-blue-600
     flex flex-col justify-center items-center '>
         <h2 className=' text-3xl text-white font-bold text-center'>Browse All Templates</h2>
-        <p className='text-white'>What would you like tto create today?</p>
+        <p className='text-white text-center mt-2'>What would you like tto create today?</p>
 
         <div className=' w-full flex justify-center items-center'>
             <div className=' flex gap-3 items-center p-2 border rounded-md bg-white my-5 w-[50%]'>
