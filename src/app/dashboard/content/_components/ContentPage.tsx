@@ -65,13 +65,16 @@ export default function ContentPage({ templateSlug }: ClientPageProps) {
           <ArrowBigLeft className="font-semibold text-xl" />Back
         </Button>
       </Link>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
-        <FormSection
-          selectedTemplate={selectedTemplate}
-          useFormInput={GenerateNewContent}
-          loading={loading}
-        />
-        <div className="col-span-2">
+     <div className="flex flex-col lg:flex-row gap-6 p-5">
+        <div className="w-full lg:w-1/3">
+          <FormSection
+            selectedTemplate={selectedTemplate}
+            useFormInput={GenerateNewContent}
+            loading={loading}
+          />
+        </div>
+        
+        <div className="w-full lg:w-2/3">
           <OutputSection aiOutput={aioutput} />
         </div>
       </div>

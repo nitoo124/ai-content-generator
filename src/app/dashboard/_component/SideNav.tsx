@@ -41,9 +41,9 @@ function SideNav({ isOpen, onClose, isMobileView }: SideNavProps) {
         )}
 
         {/* Logo */}
-        <div className='flex justify-center mb-5'>
+        <Link href="/" className='flex justify-center mb-5'>
           <Image src="/logo.svg" alt="logo" width={100} height={100} />
-        </div>
+        </Link>
 
         <hr className='my-7 border-b' />
 
