@@ -1,10 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "../../../../../utils/dbConnect";
 import { currentUser } from "@clerk/nextjs/server";
 import Content from "../../../../../utils/models/ContentModel";
 
-
-export async function PUT(req: Request, { params }: any) {
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     await dbConnect();
 
@@ -14,7 +16,10 @@ export async function PUT(req: Request, { params }: any) {
     }
 
     const email = user.emailAddresses[0]?.emailAddress;
-    const { id } =await params;
+
+    // ✅ FIX HERE
+    const { id } = await context.params;
+
     const { aiOutput } = await req.json();
 
     const content = await Content.findById(id);
@@ -34,6 +39,3 @@ export async function PUT(req: Request, { params }: any) {
     return NextResponse.json({ error: "PUT failed" }, { status: 500 });
   }
 }
-
-
-

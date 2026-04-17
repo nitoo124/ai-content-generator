@@ -11,6 +11,7 @@ interface SideNavProps {
   isMobileView: boolean
 }
 
+
 function SideNav({ isOpen, onClose, isMobileView }: SideNavProps) {
   const path = usePathname()
 
@@ -42,7 +43,13 @@ function SideNav({ isOpen, onClose, isMobileView }: SideNavProps) {
 
         {/* Logo */}
         <Link href="/" className='flex justify-center mb-5'>
-          <Image src="/logo.svg" alt="logo" width={100} height={100} />
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width={100}
+            height={100}
+            loading='lazy'
+          />
         </Link>
 
         <hr className='my-7 border-b' />

@@ -12,7 +12,7 @@ export default function SimpleFooter() {
             alt="Logo" 
             width={120} 
             height={40}
-            className="h-8 w-auto mb-4"
+            loading="lazy"
           />
           <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} AI Content Generator

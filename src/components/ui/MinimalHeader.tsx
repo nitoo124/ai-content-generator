@@ -10,19 +10,18 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo with better sizing */}
           <Link href="/" className="flex items-center">
-            <Image 
-              src="/logo.svg" 
-              alt="AI Content Generator Logo" 
-              width={120} 
-              height={40}
-              className="h-10 w-auto"
-              priority
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              width={100}
+              height={100}
+              loading="lazy"// Tailwind way ✅
             />
           </Link>
 
           {/* Enhanced Get Started Button */}
           <Link href="/dashboard">
-            <Button className="bg-[#7B19D8] hover:bg-[#6a14c0] text-white px-6 py-2 rounded-md transition-all hover:scale-[1.02] shadow">
+            <Button className="bg-[#100916] hover:bg-[#6a14c0] text-white px-6 py-2 rounded-md transition-all hover:scale-[1.02] shadow">
               <Rocket className="mr-2 h-4 w-4" />
               Get Started
             </Button>
