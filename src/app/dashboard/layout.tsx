@@ -1,10 +1,13 @@
-import React from 'react'
 import ClientWrapper from './_component/ClientWrapper'
+import { Toaster } from 'sonner'
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className='h-screen'>
-      <ClientWrapper>{children}</ClientWrapper>
+      <ClientWrapper>
+        {children}
+        <Toaster position="top-right" richColors />
+      </ClientWrapper>
     </div>
   )
 }

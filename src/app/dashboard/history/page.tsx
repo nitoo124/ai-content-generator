@@ -24,7 +24,7 @@ export default function HistoryPage() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/save-content");
+      const response = await fetch("/api/get-content");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

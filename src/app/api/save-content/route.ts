@@ -1,8 +1,8 @@
 // app/api/save-content/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "../../../../utils/dbConnect";
 import Content from "../../../../utils/models/ContentModel";
 import { currentUser } from "@clerk/nextjs/server";
+import dbConnect from "../../../../utils/dbConnect";
 
 export async function POST(req: NextRequest) {
   try {
