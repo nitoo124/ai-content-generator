@@ -1,10 +1,17 @@
-"use client"
-import { Button } from '@/components/ui/button';
-import '@toast-ui/editor/dist/toastui-editor.css';
+"use client";
+
+import { Button } from "@/components/ui/button";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import { Check, Copy } from "lucide-react";
-import { Editor } from '@toast-ui/react-editor';
-import { useEffect, useRef, useState } from 'react';
-import { toast } from 'sonner';
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import dynamic from "next/dynamic";
+
+// ✅ SSR SAFE IMPORT
+const Editor = dynamic(
+  () => import("@toast-ui/react-editor").then((mod) => mod.Editor),
+  { ssr: false }
+);
 
 interface Props {
   aiOutput: string;
@@ -13,20 +20,25 @@ interface Props {
 
 function OutputSection({ aiOutput, loading }: Props) {
   const [copied, setCopied] = useState(false);
-  const editorRef = useRef<Editor | null>(null);
-  const sectionId = "output-section"; // Unique ID for this section
+  const editorRef = useRef<any>(null);
 
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.getInstance().setMarkdown(loading ? "Generating content..." : aiOutput || "Your Result will appear here!");
+    const instance = editorRef.current?.getInstance();
+    if (instance) {
+      instance.setMarkdown(
+        loading
+          ? "Generating content..."
+          : aiOutput || "Your Result will appear here!"
+      );
     }
   }, [aiOutput, loading]);
 
   const handleCopy = async () => {
     try {
-      // Get the current content from the editor
-      const content = editorRef.current?.getInstance().getMarkdown() || aiOutput;
-      
+      const content =
+        editorRef.current?.getInstance().getMarkdown() ||
+        aiOutput;
+
       await navigator.clipboard.writeText(content);
       setCopied(true);
       toast.success("Copied to clipboard ✅");
@@ -37,28 +49,34 @@ function OutputSection({ aiOutput, loading }: Props) {
   };
 
   return (
-    <div className='bg-white shadow-lg border rounded-lg overflow-hidden'>
-      <div className='flex justify-between items-center p-5 border-b bg-gradient-to-r from-purple-50 to-white'>
-        <h2 className='font-bold text-lg text-gray-800'>Your Result</h2>
-        <Button 
-          className='bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 shadow-sm hover:shadow-md'
+    <div className="bg-white shadow-lg border rounded-lg overflow-hidden">
+      <div className="flex justify-between items-center p-5 border-b bg-gradient-to-r from-purple-50 to-white">
+        <h2 className="font-bold text-lg text-gray-800">Your Result</h2>
+
+        <Button
+          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           onClick={handleCopy}
         >
-          {copied ? <Check size={16} className="animate-in fade-in duration-200" /> : <Copy size={16} />}
+          {copied ? <Check size={16} /> : <Copy size={16} />}
           {copied ? "Copied!" : "Copy"}
         </Button>
       </div>
+
       <div className="p-0">
         <Editor
           ref={editorRef}
-          initialValue={loading ? "Generating content..." : aiOutput || "Your Result will appear here!"}
+          initialValue={
+            loading
+              ? "Generating content..."
+              : aiOutput || "Your Result will appear here!"
+          }
           height="600px"
           initialEditType="markdown"
           useCommandShortcut={true}
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default OutputSection
+export default OutputSection;

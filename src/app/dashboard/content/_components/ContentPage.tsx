@@ -46,7 +46,6 @@ export default function ContentPage({ templateSlug }: ClientPageProps) {
       })
 
       const data = await response.json()
-      console.log("OPENROUTER:", data)
 
       const text = data?.choices?.[0]?.message?.content || "No response"
 

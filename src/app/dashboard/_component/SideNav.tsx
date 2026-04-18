@@ -42,14 +42,16 @@ function SideNav({ isOpen, onClose, isMobileView }: SideNavProps) {
         )}
 
         {/* Logo */}
-        <Link href="/" className='flex justify-center mb-5'>
-          <Image
-            src="/logo.svg"
-            alt="logo"
-            width={100}
-            height={100}
-            loading='lazy'
-          />
+        <Link href="/" className="flex justify-center mb-5">
+          <div className="relative w-24 h-24">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </Link>
 
         <hr className='my-7 border-b' />
