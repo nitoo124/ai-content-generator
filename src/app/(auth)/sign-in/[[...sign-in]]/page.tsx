@@ -1,9 +1,12 @@
 import { SignIn, SignedOut } from "@clerk/nextjs";
+import { div } from "framer-motion/client";
 
 export default function Page() {
   return (
-    <SignedOut>
+    <div className=" flex items-center h-screen justify-center">
+      <SignedOut>
       <SignIn />
     </SignedOut>
+    </div>
   );
 }
