@@ -5,12 +5,10 @@ type PageProps = {
   params: Promise<{
     "template-slug": string;
   }>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+  // Remove searchParams since we'll handle it in the client component
 };
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { "template-slug": id } = await params;
-  const query = searchParams ? await searchParams : {};
-
-  return <ContentPage templateSlug={id} searchParams={query} />;
+  return <ContentPage templateSlug={id} />;
 }

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowBigLeft } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { useSearchParams } from "next/navigation" // Add this import
 
 type ClientPageProps = {
   templateSlug: string
@@ -15,6 +16,11 @@ type ClientPageProps = {
 export default function ContentPage({ templateSlug }: ClientPageProps) {
   const [loading, setLoading] = useState(false)
   const [aioutput, setAiOutput] = useState("")
+  
+  // Get search params if needed
+  const searchParams = useSearchParams()
+  // You can access query params like this:
+  // const someParam = searchParams.get('paramName')
 
   const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY
 
@@ -35,7 +41,7 @@ export default function ContentPage({ templateSlug }: ClientPageProps) {
           "X-Title": "AI Content Generator"
         },
         body: JSON.stringify({
-          model: "openrouter/auto", // ✅ fixed
+          model: "openrouter/auto",
           messages: [
             {
               role: "user",
